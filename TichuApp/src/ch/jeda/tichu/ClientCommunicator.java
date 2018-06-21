@@ -30,8 +30,27 @@ public class ClientCommunicator implements MessageReceivedListener{
 	 
         @Override
 	public void onMessageReceived(MessageEvent event) {
-            System.out.println(event.getLine());
+//            System.out.println(event.getLine());
             
+            
+            String message = event.getLine().split(":")[1];
+            String mType = event.getLine().split(":")[0];
+            
+            if(mType.equals("Cards")){
+                String[] ids = message.split(",");
+                
+            }
+            else if(mType.equals("Error")){
+                
+            }
+            else if(mType.equals("Played")){
+                String[] ids = message.split(",");
+                
+            }
+            
+            else{
+                System.out.println("Unerwartete Meldung:" + event.getLine());
+            }
 	}
 	 
 }
