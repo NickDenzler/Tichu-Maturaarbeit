@@ -12,27 +12,27 @@ public class Player {
  
 	private int playerNumber;
 	 
-	private ArrayList<Card> cards;
+	ArrayList<Card> cards;
 	 
-	private ArrayList<Card> wonCards;
+	ArrayList<Card> wonCards;
 	 
-	private boolean finished;
+	boolean finished;
 	 
-	private boolean announcedTichu;
+	boolean announcedTichu;
 	 
-	private boolean announcedBigTichu;
+	boolean announcedBigTichu;
 	 
-	private Combination lastPlayed;
+	Combination lastPlayed;
 	 
-	private Combination combination;
+	Combination combination;
 	 
-	private Card card;
+	Card card;
 	 
-	private ServerController controller;
+	ServerController controller;
 	 
 	Player(ServerController controller)
         {
-            
+            cards = new ArrayList<Card>();
         }
         
         public void play() {

@@ -10,29 +10,45 @@ import java.util.*;
 
 public class ClientController extends Program{
  
-	private boolean isPlaying;
+	boolean isPlaying;
+        
+        int playerNumber;
 	 
-	private ArrayList<Card> cards;
+	Card[] cards = new Card[56];
 	 
-	private ArrayList<Card> myCards;
+	ArrayList<Card> myCards = new ArrayList<Card>();
 	 
-	private Board board;
+	Board board;
 	 
-	private ClientCommunicator communicator;
+	ClientCommunicator communicator;
 	 
-	private CardSelector cardSelector;
+	CardSelector cardSelector;
 	 
 	private Card card;
 	 
-	private PlayButton playButton;
+	PlayButton playButton;
 	 
-	private PassButton passButton;
+	PassButton passButton;
 	 
         @Override
 	public void run() {
-            communicator = new ClientCommunicator(this);
-            board = new Board(this);
             
+            board = new Board(this);
+            cards = new Card[56];
+            String[] col = {"blue","black","red","green"};
+            int id = 0;
+            for (String c : col){
+                for(int i=0; i<13; i++){
+                    cards[id] = new Card(id,i+2,c);
+                    id++;
+                }
+            }
+            cards[id]=new Card(id,15,"Dragon");
+            cards[id+1]=new Card(id+1,1,"MahJong");
+            cards[id+2]=new Card(id+2,0,"Dog");
+            cards[id+3]=new Card(id+3,-1,"Phoenix");
+            communicator = new ClientCommunicator(this);
+            board.draw();
 	}
 	 
 }
