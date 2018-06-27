@@ -9,12 +9,14 @@ import static ch.jeda.ui.ViewFeature.*;
 
 public class Card implements Comparable<Card>{
  
-	private int value;
+	int value;
 	 
-	private String color;
+	String color;
 	 
-	private String image;
-	 
+	String image;
+        String imageS;
+	boolean isSelected;
+        
 	private boolean isPlayed;
 	 
 	private Player player;
@@ -28,7 +30,7 @@ public class Card implements Comparable<Card>{
             color = col;
             value = val;
             image ="res:cards/"+color+val+".png";
-            
+            imageS ="res:cardsSel/"+color+val+".png";
         }
         
         public String getString(){

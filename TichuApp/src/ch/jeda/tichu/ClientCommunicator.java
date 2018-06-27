@@ -48,6 +48,7 @@ public class ClientCommunicator implements MessageReceivedListener{
                 for(Card c : controller.myCards){
                     System.out.println(c.getString());
                 }
+                controller.board.draw();
                 
             }
             else if(mType.equals("Error")){

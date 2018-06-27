@@ -13,7 +13,11 @@ public class ClientController extends Program{
 	boolean isPlaying;
         
         int playerNumber;
-	 
+	
+        PlayButton play;
+        PassButton pass;
+        SchupfButton schupf;
+	  
 	Card[] cards = new Card[56];
 	 
 	ArrayList<Card> myCards = new ArrayList<Card>();
@@ -34,6 +38,7 @@ public class ClientController extends Program{
 	public void run() {
             
             board = new Board(this);
+            cardSelector = new CardSelector(this);
             cards = new Card[56];
             String[] col = {"blue","black","red","green"};
             int id = 0;
@@ -48,7 +53,11 @@ public class ClientController extends Program{
             cards[id+2]=new Card(id+2,0,"Dog");
             cards[id+3]=new Card(id+3,-1,"Phoenix");
             communicator = new ClientCommunicator(this);
-            board.draw();
+            play = new PlayButton(board.cardW*14,board.cardH*2/3,board.cardW*2,board.cardH/3,"Spielen",this);
+            pass = new PassButton(board.cardW*14,0,board.cardW*2,board.cardH/3,"Passen",this);
+            schupf = new SchupfButton(board.cardW*14,board.cardH/3,board.cardW*2,board.cardH/3,"Schupfen",this);
+            board.view.add(schupf);
+            
 	}
 	 
 }
