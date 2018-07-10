@@ -16,7 +16,7 @@ public class ServerController {
 	 
 	private ArrayList<Combination> combinations;
 	 
-	private Evaluator evaluator;
+	Evaluator evaluator;
 	 
 	private Counter counter;
 	
@@ -28,6 +28,13 @@ public class ServerController {
         Player player2;
         Player player3;
         Player player4;
+        
+        boolean p1Schupfed;
+        boolean p2Schupfed;
+        boolean p3Schupfed;
+        boolean p4Schupfed;
+        
+        Card[] cards;
 	 
 	private ServerCommunicator communicator;
         
@@ -35,7 +42,7 @@ public class ServerController {
         {
             this.main = main;
             communicator = new ServerCommunicator(this);
-            
+            evaluator = new Evaluator(this);
             
             
             player1 = new Player(this);
@@ -51,7 +58,7 @@ public class ServerController {
         }
 	 
 	public void mix() {
-            Card[] cards = new Card[56];
+            cards = new Card[56];
             String[] col = {"blue","black","red","green"};
             int id = 0;
             for (String c : col){

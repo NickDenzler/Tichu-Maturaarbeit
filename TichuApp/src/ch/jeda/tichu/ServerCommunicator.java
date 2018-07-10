@@ -15,6 +15,14 @@ public class ServerCommunicator implements MessageReceivedListener,
         
         TcpServer server;
         ArrayList<Connection> connections = new ArrayList<Connection>();
+        
+        
+        String p1 = "SchupfedCards:k1,k2,k3";
+        String p2 = "SchupfedCards:k1,k2,k3";
+        String p3 = "SchupfedCards:k1,k2,k3";
+        String p4 = "SchupfedCards:k1,k2,k3";
+        
+        int schupfed = 0;
 
         ServerCommunicator(ServerController controller) {
             this.controller = controller;
@@ -46,6 +54,56 @@ public class ServerCommunicator implements MessageReceivedListener,
             if (mType.equals("SchupfCards")){
                 
                 
+                String[] ids = message.split(",");
+                int[] iIds = new int[3];
+                for(int i=0;i<3;i++){
+                    iIds[i]=Integer.parseInt(ids[i]);
+                }
+                switch(Integer.parseInt(sender)){
+                    case 1:
+                        controller.player4.cards.add(controller.cards[iIds[0]]);
+                        controller.player2.cards.add(controller.cards[iIds[1]]);
+                        controller.player3.cards.add(controller.cards[iIds[2]]);
+                        p4=p4.replaceFirst("k2", ids[0]);
+                        p2=p2.replaceFirst("k1", ids[1]);
+                        p3=p3.replaceFirst("k3", ids[2]);
+//                            controller.p1Schupfed=true;
+                        break;
+                    case 2:
+                        controller.player1.cards.add(controller.cards[iIds[0]]);
+                        controller.player3.cards.add(controller.cards[iIds[1]]);
+                        controller.player4.cards.add(controller.cards[iIds[2]]);
+                        p1=p1.replaceFirst("k2", ids[0]);
+                        p3=p3.replaceFirst("k1", ids[1]);
+                        p4=p4.replaceFirst("k3", ids[2]);
+//                            controller.p2Schupfed=true;
+                        break;
+                    case 3:
+                        controller.player2.cards.add(controller.cards[iIds[0]]);
+                        controller.player4.cards.add(controller.cards[iIds[1]]);
+                        controller.player1.cards.add(controller.cards[iIds[2]]);
+                        p2=p2.replaceFirst("k2", ids[0]);
+                        p4=p4.replaceFirst("k1", ids[1]);
+                        p1=p1.replaceFirst("k3", ids[2]);
+//                            controller.p3Schupfed=true;
+                        break;
+                    case 4:
+                        controller.player3.cards.add(controller.cards[iIds[0]]);
+                        controller.player1.cards.add(controller.cards[iIds[1]]);
+                        controller.player2.cards.add(controller.cards[iIds[2]]);
+                        p3=p3.replaceFirst("k2", ids[0]);
+                        p1=p1.replaceFirst("k1", ids[1]);
+                        p2=p2.replaceFirst("k3", ids[2]);
+//                            controller.p4Schupfed=true;
+                        break;
+                }
+                schupfed++;
+                if(schupfed==4){
+                    send(1,p1);
+                    send(2,p2);
+                    send(3,p3);
+                    send(4,p4);
+                }
             }
             else if(mType.equals("Play")){
                 

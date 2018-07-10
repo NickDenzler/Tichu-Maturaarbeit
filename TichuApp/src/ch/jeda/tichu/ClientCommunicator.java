@@ -51,6 +51,16 @@ public class ClientCommunicator implements MessageReceivedListener{
                 controller.board.draw();
                 
             }
+            else if(mType.equals("SchupfedCards")){
+                String[] ids = message.split(",");
+                for(String s : ids){
+                    int x = Integer.parseInt(s);
+                    controller.myCards.add(controller.cards[x]);
+                }
+                Collections.sort(controller.myCards);
+                controller.board.draw();
+            }
+            
             else if(mType.equals("Error")){
                 
             }

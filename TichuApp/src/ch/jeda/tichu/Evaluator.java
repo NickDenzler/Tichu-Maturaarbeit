@@ -10,7 +10,12 @@ import java.util.*;
 
 public class Evaluator {
  
-	private ServerController controller;
+	ServerController controller;
+
+    Evaluator(ServerController controller) {
+        this.controller = controller;
+        
+    }
 	 
 	public Combination evaluate(ArrayList<Card> cards) {
 		return null;
