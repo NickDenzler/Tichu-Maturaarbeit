@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Player {
  
-	private int playerNumber;
+	int playerNumber;
 	 
 	ArrayList<Card> cards;
 	 
@@ -30,9 +30,11 @@ public class Player {
 	 
 	ServerController controller;
 	 
-	Player(ServerController controller)
+	Player(ServerController controller, int number)
         {
             cards = new ArrayList<Card>();
+            this.controller = controller;
+            playerNumber = number;
         }
         
         public void play() {

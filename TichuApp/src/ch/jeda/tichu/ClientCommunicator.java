@@ -62,7 +62,7 @@ public class ClientCommunicator implements MessageReceivedListener{
             }
             
             else if(mType.equals("Error")){
-                
+                controller.board.message(message);
             }
             else if(mType.equals("Played")){
                 String[] ids = message.split(",");

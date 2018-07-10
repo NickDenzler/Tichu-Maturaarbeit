@@ -103,10 +103,23 @@ public class ServerCommunicator implements MessageReceivedListener,
                     send(2,p2);
                     send(3,p3);
                     send(4,p4);
+                    controller.currentPlayer = controller.findStarter();
                 }
             }
             else if(mType.equals("Play")){
-                
+                int n = Integer.parseInt(sender);
+                if(n == controller.currentPlayer.playerNumber){
+                    ArrayList<Card> played = new ArrayList<Card>();
+                    String[] ids = message.split(",");
+                    for(String s : ids){
+                        int x = Integer.parseInt(s);
+                        played.add(controller.cards[x]);
+                    }
+                    controller.evaluator.evaluate(played);
+                }
+                else{
+                    send(n, "Error:Du bist nicht an der Reihe");
+                }
             }
             else if(mType.equals("Pass")){
                 

@@ -10,15 +10,15 @@ import java.util.*;
 
 public class ServerController {
  
-	private Combination currentComb;
+	Combination currentComb;
 	 
-	private Player currentPlayer;
+	Player currentPlayer;
 	 
-	private ArrayList<Combination> combinations;
+	ArrayList<Combination> combinations;
 	 
 	Evaluator evaluator;
 	 
-	private Counter counter;
+	Counter counter;
 	
         Canvas canvas;
         
@@ -45,10 +45,10 @@ public class ServerController {
             evaluator = new Evaluator(this);
             
             
-            player1 = new Player(this);
-            player2 = new Player(this);
-            player3 = new Player(this);
-            player4 = new Player(this);
+            player1 = new Player(this,1);
+            player2 = new Player(this,2);
+            player3 = new Player(this,3);
+            player4 = new Player(this,4);
             
             while(1==1){
                 
@@ -143,6 +143,29 @@ public class ServerController {
             System.out.println(p4);
             
 	}
+        
+        Player findStarter(){
+            for(Card c: player1.cards){
+                if (c.id == 53){
+                    return player1;
+                }
+            }
+            for(Card c: player2.cards){
+                if (c.id == 53){
+                    return player2;
+                }
+            }for(Card c: player3.cards){
+                if (c.id == 53){
+                    return player3;
+                }
+            }
+            for(Card c: player4.cards){
+                if (c.id == 53){
+                    return player4;
+                }
+            }
+            return null;
+        }
 	 
 }
  

@@ -1,0 +1,10 @@
+Combinations
+
+SingleCard
+Pair
+Triplet
+FullHouse
+Stair
+Street
+Bomb
+Streetbomb
