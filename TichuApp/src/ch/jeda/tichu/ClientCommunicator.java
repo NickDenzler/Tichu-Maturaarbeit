@@ -33,9 +33,13 @@ public class ClientCommunicator implements MessageReceivedListener{
 	public void onMessageReceived(MessageEvent event) {
 //            System.out.println(event.getLine());
             
-            
-            String message = event.getLine().split(":")[1];
-            String mType = event.getLine().split(":")[0];
+            String[] parts = event.getLine().split(":");
+            String message = parts[1];
+            String mType = parts[0];
+            String player = "";
+            if (parts.length > 2){
+                player = parts[2];
+            }
             
             if(mType.equals("Cards")){
                 String[] ids = message.split(",");
@@ -66,7 +70,12 @@ public class ClientCommunicator implements MessageReceivedListener{
             }
             else if(mType.equals("Played")){
                 String[] ids = message.split(",");
-                
+                if(player.equals(controller.playerNumber)){
+                    for(String s : ids){
+                        int x = Integer.parseInt(s);
+                        controller.myCards.remove(controller.cards[x]);
+                    }
+                }
             }
             else if(mType.equals("Message")){
                 System.out.println(message);

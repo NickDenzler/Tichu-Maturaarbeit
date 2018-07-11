@@ -6,6 +6,7 @@ import ch.jeda.ui.*;
 import ch.jeda.event.*;
 import static ch.jeda.ui.ViewFeature.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class ServerCommunicator implements MessageReceivedListener, 
@@ -115,7 +116,24 @@ public class ServerCommunicator implements MessageReceivedListener,
                         int x = Integer.parseInt(s);
                         played.add(controller.cards[x]);
                     }
-                    controller.evaluator.evaluate(played);
+                    Collections.sort(played);
+                    Combination comb = controller.evaluator.evaluate(played);
+                    if(comb == null){
+                        send(n, "Error:Falsche oder zu tiefe Kombination");
+                    }
+                    else {
+                        controller.currentComb = comb;
+                        controller.combinations.add(comb);
+                        
+                        String cards = "Played:"   +n+":";
+                        for(Card c: played){
+                            cards=cards+c.id+",";
+                        }
+                        cards = cards.substring(0, cards.length()-1);
+                        for(int i = 1;i<5;i++){
+                            send(i,cards);
+                        }
+                    }
                 }
                 else{
                     send(n, "Error:Du bist nicht an der Reihe");

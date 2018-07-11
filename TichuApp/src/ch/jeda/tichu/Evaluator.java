@@ -35,31 +35,81 @@ public class Evaluator {
                     return test("Bomb",cards.get(0).value,cards,0);
                 }
                 else if(cards.get(0).value == cards.get(1).value && cards.get(2).value == cards.get(3).value){
-                    return test("stair",cards.get(0).value,cards,2);
+                    return test("Stair",cards.get(0).value,cards,2);
+                }
+            default :
+                if(n > 4){
+                    if((n%2)==0){
+                        if(stair(cards)){
+                            return test("Stair",cards.get(0).value,cards,n);
+                        }
+                    }
+                    if(street(cards)){
+                        if(streetbomb(cards)){
+                            return test("Streetbomb",cards.get(0).value,cards,n);
+                        }
+                        return test("Street",cards.get(0).value,cards,n);
+                    }
                 }
         }
         return null;
     }
     
-    boolean ok(String type,int value){
+    boolean ok(String type,int value, int length){
         if(controller.currentComb == null){
             return true;
         }
         else if("Bomb".equals(type)){
-            return !(controller.currentComb.type.equals(type) && controller.currentComb.value >= value);
+            if(!controller.currentComb.type.equals("Streetbomb")){
+                return !(controller.currentComb.type.equals(type) && controller.currentComb.value >= value);
+            }
+            else return false;
+        }
+        else if("Sreetbomb".equals(type)){
+            if(controller.currentComb.type.equals(type)){
+                if(controller.currentComb.length >= length){
+                    return !(controller.currentComb.value >= value);
+                }
+            }
+            return true;
         }
         
         else return controller.currentComb.type.equals(type) && controller.currentComb.value < value;
     }
     
     Combination test(String type, int value, ArrayList<Card> cards, int length){
-        if(ok(type,value)){
+        if(ok(type,value,length)){
             Combination comb = new Combination(type,value,cards,controller.currentPlayer, length);
             return comb;
         }
         else return null;
     }
     
+    boolean stair(ArrayList<Card> cards){
+        for(int n = 0; n < cards.size(); n = n + 2){
+            if(cards.get(n).value != cards.get(n+1).value){
+                return false;
+            } 
+        }
+        return true;
+    }
+    boolean street(ArrayList<Card> cards){
+        for(int n = 0; n < cards.size(); n++){
+            if(cards.get(n).value != cards.get(n+1).value){
+                return false;
+            }
+        }
+        return true;
+    }
+    boolean streetbomb(ArrayList<Card> cards){
+        for(int n = 0; n < cards.size(); n++){
+            if(cards.get(n).value == cards.get(n+1).value && cards.get(n).color.equals(cards.get(n+1).color)){
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
 	 
 }
  

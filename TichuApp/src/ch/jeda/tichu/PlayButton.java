@@ -21,15 +21,13 @@ public class PlayButton extends TextButton{
         
         @Override
 	public void clicked() {
-            if(controller.isPlaying){
-                String s = "Play:";
-                for(Card c: controller.cardSelector.selected){
-                    s = s + c.id + ",";
-                }
-                s = s.substring(0, s.length()-1);
-                controller.communicator.send(s);
-                System.out.println();
+            String s = "Play:";
+            for(Card c: controller.cardSelector.selected){
+                s = s + c.id + ",";
             }
+            s = s.substring(0, s.length()-1);
+            controller.communicator.send(s);
+            System.out.println(s);
 	}
 	 
 }

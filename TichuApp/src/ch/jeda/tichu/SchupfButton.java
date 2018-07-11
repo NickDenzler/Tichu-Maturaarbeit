@@ -26,7 +26,9 @@ public class SchupfButton extends TextButton{
                 for(Card c :controller.cardSelector.selected){
                     s = s + c.id+",";
                     controller.myCards.remove(c);
+                    
                 }
+                controller.cardSelector.selected.clear();
                 s = s.substring(0, s.length()-1);
                 controller.communicator.send(s);
                 controller.board.draw();
