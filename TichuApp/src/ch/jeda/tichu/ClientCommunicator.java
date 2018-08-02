@@ -13,7 +13,7 @@ public class ClientCommunicator implements MessageReceivedListener{
 	ClientController controller;
         
         TcpConnection connection;
-        String servername ="Legolas";
+        String servername ="Localhost";
         int port=1616;
         
         
@@ -75,6 +75,8 @@ public class ClientCommunicator implements MessageReceivedListener{
                         int x = Integer.parseInt(s);
                         controller.myCards.remove(controller.cards[x]);
                     }
+                    Collections.sort(controller.myCards);
+                    controller.board.draw();
                 }
             }
             else if(mType.equals("Message")){

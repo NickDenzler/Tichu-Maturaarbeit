@@ -25,7 +25,7 @@ public class Board {
 	 
 	Board(ClientController controller){
             this.controller = controller;
-            view = new View(1600,900);
+            view = new View(1600/2,900/2);
             background = view.getBackground();
             width = background.getWidth();
             height = background.getHeight();
