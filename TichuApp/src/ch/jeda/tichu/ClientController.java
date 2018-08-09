@@ -21,7 +21,14 @@ public class ClientController extends Program{
 	Card[] cards = new Card[56];
 	 
 	ArrayList<Card> myCards = new ArrayList<Card>();
-	 
+        
+        ArrayList<Card> playedCards1 = new ArrayList<Card>();
+	ArrayList<Card> playedCards2 = new ArrayList<Card>();
+	ArrayList<Card> playedCards3 = new ArrayList<Card>();
+	ArrayList<Card> playedCards4 = new ArrayList<Card>();
+        
+        ArrayList<Card>[] playedCards = (ArrayList<Card>[])new ArrayList[4];
+	
 	Board board;
 	 
 	ClientCommunicator communicator;
@@ -57,6 +64,11 @@ public class ClientController extends Program{
             pass = new PassButton(board.cardW*14,0,board.cardW*2,board.cardH/3,"Passen",this);
             schupf = new SchupfButton(board.cardW*14,board.cardH/3,board.cardW*2,board.cardH/3,"Schupfen",this);
             board.view.add(schupf);
+            
+            playedCards[0] = playedCards1;
+            playedCards[1] = playedCards2;
+            playedCards[2] = playedCards3;
+            playedCards[3] = playedCards4;
             
 	}
 	 

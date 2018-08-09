@@ -21,6 +21,12 @@ public class Evaluator {
         int n = cards.size();
         switch(n){
             case 1:
+                if(cards.get(0).color.equals("Phoenix")){
+                    if(test("SingleCard",controller.currentComb.value+1,cards,0)!= null){
+                        Combination comb = new Combination("SingleCard",controller.currentComb.value,cards,controller.currentPlayer,0);
+                        return comb;
+                    }
+                }
                 return test("SingleCard",cards.get(0).value,cards,0);
             case 2:
                 if(cards.get(0).value == cards.get(1).value){

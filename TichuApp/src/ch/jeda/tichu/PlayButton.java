@@ -22,12 +22,23 @@ public class PlayButton extends TextButton{
         @Override
 	public void clicked() {
             String s = "Play:";
-            for(Card c: controller.cardSelector.selected){
-                s = s + c.id + ",";
+            if(!controller.isPlaying){
+                controller.board.message("Du bist nicht an der Reihe");
             }
-            s = s.substring(0, s.length()-1);
-            controller.communicator.send(s);
-            System.out.println(s);
+            else if(controller.cardSelector.selected.isEmpty()){
+                controller.board.message("Du musst mind. 1 Karte wählen");
+            }
+            else{
+                for(Card c: controller.cardSelector.selected){
+                    s = s + c.id + ",";
+                    c.isSelected = false;
+                }
+                s = s.substring(0, s.length()-1);
+                controller.communicator.send(s);
+                controller.cardSelector.selected.clear();
+                System.out.println(s);
+                controller.board.draw();
+            }
 	}
 	 
 }

@@ -68,6 +68,10 @@ public class ServerCommunicator implements MessageReceivedListener,
                         p4=p4.replaceFirst("k2", ids[0]);
                         p2=p2.replaceFirst("k1", ids[1]);
                         p3=p3.replaceFirst("k3", ids[2]);
+                        controller.player1.cards.remove(controller.cards[iIds[0]]);
+                        controller.player1.cards.remove(controller.cards[iIds[1]]);
+                        controller.player1.cards.remove(controller.cards[iIds[2]]);
+                        
 //                            controller.p1Schupfed=true;
                         break;
                     case 2:
@@ -77,6 +81,9 @@ public class ServerCommunicator implements MessageReceivedListener,
                         p1=p1.replaceFirst("k2", ids[0]);
                         p3=p3.replaceFirst("k1", ids[1]);
                         p4=p4.replaceFirst("k3", ids[2]);
+                        controller.player2.cards.remove(controller.cards[iIds[0]]);
+                        controller.player2.cards.remove(controller.cards[iIds[1]]);
+                        controller.player2.cards.remove(controller.cards[iIds[2]]);
 //                            controller.p2Schupfed=true;
                         break;
                     case 3:
@@ -86,6 +93,9 @@ public class ServerCommunicator implements MessageReceivedListener,
                         p2=p2.replaceFirst("k2", ids[0]);
                         p4=p4.replaceFirst("k1", ids[1]);
                         p1=p1.replaceFirst("k3", ids[2]);
+                        controller.player3.cards.remove(controller.cards[iIds[0]]);
+                        controller.player3.cards.remove(controller.cards[iIds[1]]);
+                        controller.player3.cards.remove(controller.cards[iIds[2]]);
 //                            controller.p3Schupfed=true;
                         break;
                     case 4:
@@ -95,6 +105,9 @@ public class ServerCommunicator implements MessageReceivedListener,
                         p3=p3.replaceFirst("k2", ids[0]);
                         p1=p1.replaceFirst("k1", ids[1]);
                         p2=p2.replaceFirst("k3", ids[2]);
+                        controller.player4.cards.remove(controller.cards[iIds[0]]);
+                        controller.player4.cards.remove(controller.cards[iIds[1]]);
+                        controller.player4.cards.remove(controller.cards[iIds[2]]);
 //                            controller.p4Schupfed=true;
                         break;
                 }
@@ -105,6 +118,7 @@ public class ServerCommunicator implements MessageReceivedListener,
                     send(3,p3);
                     send(4,p4);
                     controller.currentPlayer = controller.findStarter();
+                    send(controller.currentPlayer.playerNumber,"YourTurn:true");
                 }
             }
             else if(mType.equals("Play")){
@@ -133,6 +147,43 @@ public class ServerCommunicator implements MessageReceivedListener,
                         for(int i = 1;i<5;i++){
                             send(i,cards);
                         }
+                        switch(n){
+                            case 1:
+                                for(Card c: played){
+                                    controller.player1.cards.remove(c);
+                                    controller.currentPlayer = controller.player2;
+                                }
+                                send(2,"YourTurn:true");
+                                send(1,"YourTurn:false");
+                                break;
+                                
+                            case 2:
+                                for(Card c: played){
+                                    controller.player2.cards.remove(c);
+                                    controller.currentPlayer = controller.player3;
+                                }
+                                send(3,"YourTurn:true");
+                                send(2,"YourTurn:false");
+                                break;
+                            case 3:
+                                for(Card c: played){
+                                    controller.player3.cards.remove(c);
+                                    controller.currentPlayer = controller.player4;
+                                }
+                                send(4,"YourTurn:true");
+                                send(3,"YourTurn:false");
+                                break;
+                            case 4:
+                                for(Card c: played){
+                                    controller.player4.cards.remove(c);
+                                    controller.currentPlayer = controller.player1;
+                                }
+                                send(1,"YourTurn:true");
+                                send(4,"YourTurn:false");
+                                break;
+                            }
+                            
+                        
                     }
                 }
                 else{

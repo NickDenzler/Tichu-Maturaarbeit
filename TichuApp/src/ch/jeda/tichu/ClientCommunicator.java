@@ -38,7 +38,8 @@ public class ClientCommunicator implements MessageReceivedListener{
             String mType = parts[0];
             String player = "";
             if (parts.length > 2){
-                player = parts[2];
+                player = parts[1];
+                message = parts[2];
             }
             
             if(mType.equals("Cards")){
@@ -53,6 +54,21 @@ public class ClientCommunicator implements MessageReceivedListener{
                     System.out.println(c.getString());
                 }
                 controller.board.draw();
+                
+            }
+            else if(mType.equals("YourTurn")){
+                if(message.equals("true")){
+                    System.out.println("playing");
+                    controller.isPlaying = true;
+                    String title = controller.board.view.getTitle();
+                    controller.board.view.setTitle(title + " playing");
+                }
+                else if(message.equals("false")){
+                    System.out.println("not playing");
+                    controller.isPlaying = false;
+                    String title = controller.board.view.getTitle();
+                    controller.board.view.setTitle(title.replaceAll(" playing", ""));
+                }
                 
             }
             else if(mType.equals("SchupfedCards")){
@@ -70,14 +86,35 @@ public class ClientCommunicator implements MessageReceivedListener{
             }
             else if(mType.equals("Played")){
                 String[] ids = message.split(",");
-                if(player.equals(controller.playerNumber)){
+                System.out.println(player);
+                int p = Integer.parseInt(player);
+                if(p == controller.playerNumber){
                     for(String s : ids){
                         int x = Integer.parseInt(s);
-                        controller.myCards.remove(controller.cards[x]);
+                        boolean remove = controller.myCards.remove(controller.cards[x]);
+                        if(remove==true){
+                            System.out.println(controller.cards[x].getString() + " enternt");
+                        }
+                        else{
+                            System.out.println("fehler beim Entfernen von ");
+                            System.out.println(controller.cards[x].getString());
+                        }
+                        
                     }
+                    
+                    controller.myCards.trimToSize();
                     Collections.sort(controller.myCards);
+                    
                     controller.board.draw();
                 }
+                controller.playedCards[p-1].clear();
+                for(String s : ids){
+                    int x = Integer.parseInt(s);
+                    controller.playedCards[p-1].add(controller.cards[x]);
+                }
+                controller.playedCards1.trimToSize();
+                Collections.sort(controller.playedCards1);
+                controller.board.draw();
             }
             else if(mType.equals("Message")){
                 System.out.println(message);
@@ -105,7 +142,7 @@ public class ClientCommunicator implements MessageReceivedListener{
                     controller.playerNumber = x;
                     System.out.println("playerNumber = "+x);
                 }
-                
+                controller.board.number(controller.playerNumber);
             }
             
             else{

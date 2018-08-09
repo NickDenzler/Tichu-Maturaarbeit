@@ -43,7 +43,7 @@ public class ServerController {
             this.main = main;
             communicator = new ServerCommunicator(this);
             evaluator = new Evaluator(this);
-            
+            combinations = new ArrayList<Combination>();
             
             player1 = new Player(this,1);
             player2 = new Player(this,2);
@@ -63,7 +63,7 @@ public class ServerController {
             int id = 0;
             for (String c : col){
                 for(int i=0; i<13; i++){
-                    cards[id] = new Card(id,i,c);
+                    cards[id] = new Card(id,i+2,c);
                     id++;
                 }
             }
