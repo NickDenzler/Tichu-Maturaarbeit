@@ -29,6 +29,8 @@ public class ServerController {
         Player player3;
         Player player4;
         
+        Player[] players = new Player[4];
+        
         boolean p1Schupfed;
         boolean p2Schupfed;
         boolean p3Schupfed;
@@ -49,6 +51,12 @@ public class ServerController {
             player2 = new Player(this,2);
             player3 = new Player(this,3);
             player4 = new Player(this,4);
+            
+            players[0] = player1;
+            players[1] = player2;
+            players[2] = player3;
+            players[3] = player4;
+            
             
             while(1==1){
                 

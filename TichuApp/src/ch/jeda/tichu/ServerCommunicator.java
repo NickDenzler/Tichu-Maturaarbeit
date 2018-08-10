@@ -191,8 +191,51 @@ public class ServerCommunicator implements MessageReceivedListener,
                 }
             }
             else if(mType.equals("Pass")){
-                
+                int n = Integer.parseInt(sender);
+                if(n == controller.currentPlayer.playerNumber){
+                    for(int i = 1; i < 5; i++){
+                        send(i,"Passed:"+n);
+                    }
+                    switch(n){
+                            case 1:
+                                controller.currentPlayer = controller.player2;
+                                send(2,"YourTurn:true");
+                                send(1,"YourTurn:false");
+                                break;
+                                
+                            case 2:
+                                controller.currentPlayer = controller.player3;
+                                send(3,"YourTurn:true");
+                                send(2,"YourTurn:false");
+                                break;
+                            case 3:
+                                controller.currentPlayer = controller.player4;
+                                send(4,"YourTurn:true");
+                                send(3,"YourTurn:false");
+                                break;
+                            case 4:
+                                controller.currentPlayer = controller.player1;
+                                send(1,"YourTurn:true");
+                                send(4,"YourTurn:false");
+                                break;
+                            }
+                }
+                else{
+                    send(n,"Error:Du bist nicht an der Reihe");
+                }
             }
+            else if(mType.equals("Won")){
+                int n = Integer.parseInt(sender);
+                
+                for(Combination comb : controller.combinations){
+                    for(Card c : comb.cards){
+                        controller.players[n-1].wonCards.add(c);
+                    }
+                }
+                controller.combinations.clear();
+                controller.currentComb = null;
+            }
+            
             else {
                 System.out.println("Unerwartete Meldung:" + event.getLine());
             }

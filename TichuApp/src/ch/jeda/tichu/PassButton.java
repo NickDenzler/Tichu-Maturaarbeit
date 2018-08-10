@@ -23,7 +23,7 @@ public class PassButton extends TextButton{
         @Override
 	public void clicked() {
             if(controller.isPlaying){
-                controller.communicator.send("Pass");
+                controller.communicator.send("Pass: ");
             }
 	}
 	 

@@ -28,7 +28,13 @@ public class Board {
         int opp1;
         int opp2;
         
-	 
+        boolean mePass;
+        boolean partPass;
+        boolean opp1Pass;
+	boolean opp2Pass;
+	
+        boolean[] pass = new boolean[4];
+        
 	Board(ClientController controller){
             this.controller = controller;
             view = new View(1600/2,900/2);
@@ -45,7 +51,8 @@ public class Board {
         public void draw() {
 //            background.drawImage(0, 0, width/15, height/6, Image.JEDA_LOGO_16x16);
             background.setColor(Color.WHITE);
-            background.fillRectangle(0, 0, cardW*14, cardH);
+//            background.fillRectangle(0, 0, cardW*14, cardH);
+            background.fillRectangle(0, 0, width, height);
             for(int i=0;i<controller.myCards.size();i++){
                 Card c = controller.myCards.get(i);
                 if(c.isSelected){
@@ -58,33 +65,54 @@ public class Board {
                 }
                 
             }
-            int meSize = controller.playedCards[me].size();
-            for(int i = 0; i < meSize; i++){
-                Card c =controller.playedCards[me].get(i);
-                Image img = new Image(c.image);
-                background.drawImage(width/2-(meSize/2*(cardW/2))+ i*(cardW/2), height/9*2, cardW/2, cardH/2, img);
+            background.setTextSize(24);
+            background.setColor(Color.BLACK);
+            if(pass[me]){
+                background.drawText(width/2, height/9*2, "Pass");
             }
-            int partSize = controller.playedCards[part].size();
-            for(int i = 0; i < partSize; i++){
-                Card c =controller.playedCards[part].get(i);
-                Image img = new Image(c.image);
-                background.drawImage(width/2-(partSize/2*(cardW/2))+ i*(cardW/2), height/9*8, cardW/2, cardH/2, img);
+            else{
+                int meSize = controller.playedCards[me].size();
+                for(int i = 0; i < meSize; i++){
+                    Card c =controller.playedCards[me].get(i);
+                    Image img = new Image(c.image);
+                    background.drawImage(width/2-(meSize/2*(cardW/2))+ i*(cardW/2), height/9*2, cardW/2, cardH/2, img);
+                }
             }
-            int opp2Size = controller.playedCards[opp2].size();
-            for(int i = 0; i < opp2Size; i++){
-                Card c = controller.playedCards[opp2].get(i);
-                Image img = new Image(c.image);
-                img.rotateDeg(270);
-                background.drawImage(cardW, cardH*3.5-opp2Size/2 + i*(cardW/2), cardH/2, cardW/2, img);
+            if(pass[part]){
+                background.drawText(width/2, height/9*8, "Pass");
             }
-            int opp1Size = controller.playedCards[opp1].size();
-            for(int i = 0; i < opp1Size; i++){
-                Card c = controller.playedCards[opp1].get(i);
-                Image img = new Image(c.image);
-                img.rotateDeg(90);
-                background.drawImage(cardW*15, cardH*3.5+opp1Size/2 + i*(cardW/2), cardH/2, cardW/2, img);
+            else{
+                int partSize = controller.playedCards[part].size();
+                for(int i = 0; i < partSize; i++){
+                    Card c =controller.playedCards[part].get(i);
+                    Image img = new Image(c.image);
+                    background.drawImage(width/2-(partSize/2*(cardW/2))+ i*(cardW/2), height/9*8, cardW/2, cardH/2, img);
+                }
             }
-            
+            if(pass[opp2]){
+                background.drawText(cardW, cardH*3.5, "Pass");
+            }
+            else{
+                int opp2Size = controller.playedCards[opp2].size();
+                for(int i = 0; i < opp2Size; i++){
+                    Card c = controller.playedCards[opp2].get(i);
+                    Image img = new Image(c.image);
+                    img.rotateDeg(270);
+                    background.drawImage(cardW, cardH*3.5-opp2Size/2 + i*(cardW/2), cardH/2, cardW/2, img);
+                }
+            }
+            if(pass[opp1]){
+                background.drawText(cardW*14, cardH*3.5, "Pass");
+            }
+            else{
+                int opp1Size = controller.playedCards[opp1].size();
+                for(int i = 0; i < opp1Size; i++){
+                    Card c = controller.playedCards[opp1].get(i);
+                    Image img = new Image(c.image);
+                    img.rotateDeg(90);
+                    background.drawImage(cardW*15, cardH*3.5+opp1Size/2 + i*(cardW/2), cardH/2, cardW/2, img);
+                }
+            }
 //            if(controller.isPlaying){
 //                background.setColor(Color.GREEN);
 //                background.fillRectangle(cardW*14,cardH/3, cardW*2,cardH/3);
@@ -141,6 +169,12 @@ public class Board {
             part--;
             opp1--;
             opp2--;
+            
+            pass[me] = mePass;
+            pass[part] = partPass;
+            pass[opp1] = opp1Pass;
+            pass[opp2] = opp2Pass;
+            
             
         }
 }

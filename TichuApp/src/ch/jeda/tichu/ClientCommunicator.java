@@ -62,6 +62,18 @@ public class ClientCommunicator implements MessageReceivedListener{
                     controller.isPlaying = true;
                     String title = controller.board.view.getTitle();
                     controller.board.view.setTitle(title + " playing");
+                    if(controller.board.opp1Pass && controller.board.opp2Pass && controller.board.partPass){
+                        System.out.println("won");
+                        controller.board.opp1Pass = false;
+                        controller.board.opp2Pass = false;
+                        controller.board.partPass = false;
+                        for(int i = 0; i < 4; i++){
+                            controller.playedCards[i].clear();
+                            controller.playedCards[i].trimToSize();
+                        }
+                        send("Won:Round");
+                        
+                    }
                 }
                 else if(message.equals("false")){
                     System.out.println("not playing");
@@ -84,6 +96,13 @@ public class ClientCommunicator implements MessageReceivedListener{
             else if(mType.equals("Error")){
                 controller.board.message(message);
             }
+            else if(mType.equals("Passed")){
+                int p = Integer.parseInt(message);
+                controller.playedCards[p-1].clear();
+                controller.board.pass[p-1] = true;
+                controller.board.draw();
+            }
+            
             else if(mType.equals("Played")){
                 String[] ids = message.split(",");
                 System.out.println(player);
@@ -114,6 +133,7 @@ public class ClientCommunicator implements MessageReceivedListener{
                 }
                 controller.playedCards1.trimToSize();
                 Collections.sort(controller.playedCards1);
+                controller.board.pass[p-1] = false;
                 controller.board.draw();
             }
             else if(mType.equals("Message")){
