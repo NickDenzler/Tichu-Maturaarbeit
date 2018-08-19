@@ -151,13 +151,14 @@ public class ServerCommunicator implements MessageReceivedListener,
                             case 1:
                                 for(Card c: played){
                                     controller.player1.cards.remove(c);
-                                    controller.currentPlayer = controller.player2;
                                 }
                                 if(comb.cards.get(0).color.equals("Dog")){
                                     send(3,"YourTurn:true");
+                                    controller.currentPlayer = controller.player3;
                                 }
                                 else{
                                     send(2,"YourTurn:true");
+                                    controller.currentPlayer = controller.player2;
                                 }
                                 send(1,"YourTurn:false");
                                 break;
@@ -165,39 +166,42 @@ public class ServerCommunicator implements MessageReceivedListener,
                             case 2:
                                 for(Card c: played){
                                     controller.player2.cards.remove(c);
-                                    controller.currentPlayer = controller.player3;
                                 }
                                 if(comb.cards.get(0).color.equals("Dog")){
                                     send(4,"YourTurn:true");
+                                    controller.currentPlayer = controller.player4;
                                 }
                                 else{
                                     send(3,"YourTurn:true");
+                                    controller.currentPlayer = controller.player3;
                                 }
                                 send(2,"YourTurn:false");
                                 break;
                             case 3:
                                 for(Card c: played){
                                     controller.player3.cards.remove(c);
-                                    controller.currentPlayer = controller.player4;
                                 }
                                 if(comb.cards.get(0).color.equals("Dog")){
                                     send(1,"YourTurn:true");
+                                    controller.currentPlayer = controller.player1;
                                 }
                                 else{
                                     send(4,"YourTurn:true");
+                                    controller.currentPlayer = controller.player4;
                                 }
                                 send(3,"YourTurn:false");
                                 break;
                             case 4:
                                 for(Card c: played){
                                     controller.player4.cards.remove(c);
-                                    controller.currentPlayer = controller.player1;
                                 }
                                 if(comb.cards.get(0).color.equals("Dog")){
                                     send(2,"YourTurn:true");
+                                    controller.currentPlayer = controller.player2;
                                 }
                                 else{
                                     send(1,"YourTurn:true");
+                                    controller.currentPlayer = controller.player1;
                                 }
                                 send(4,"YourTurn:false");
                                 break;

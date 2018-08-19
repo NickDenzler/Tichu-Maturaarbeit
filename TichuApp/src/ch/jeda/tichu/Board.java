@@ -5,6 +5,7 @@ import ch.jeda.*;
 import ch.jeda.ui.*;
 import ch.jeda.event.*;
 import static ch.jeda.ui.ViewFeature.*;
+import javax.swing.JTextField;
 
 
 public class Board {
@@ -37,7 +38,7 @@ public class Board {
         
 	Board(ClientController controller){
             this.controller = controller;
-            view = new View(1600/2,900/2);
+            view = new View(1600,900);
             view.setTitle("Spieler " + Integer.toString(controller.playerNumber));
             background = view.getBackground();
             width = background.getWidth();
@@ -135,6 +136,7 @@ public class Board {
             canvas.setTextSize(24);
             canvas.drawText(10, 50, text);
         }
+        
 	
         public void number(int playerNumber){
             view.setTitle("Spieler " + Integer.toString(playerNumber));

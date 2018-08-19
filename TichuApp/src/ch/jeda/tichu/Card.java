@@ -25,12 +25,14 @@ public class Card implements Comparable<Card>{
 	
         int id;
         
+        String deck = " - Kopie";
+        
         Card(int id, int val, String col){
             this.id = id;
             color = col;
             value = val;
-            image ="res:cards/"+color+val+".png";
-            imageS ="res:cardsSel/"+color+val+".png";
+            image ="res:cards/"+color+val+deck+".png";
+            imageS ="res:cardsSel/"+color+val+deck+".png";
         }
         
         public String getString(){
