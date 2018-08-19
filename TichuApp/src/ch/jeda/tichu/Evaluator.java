@@ -27,6 +27,9 @@ public class Evaluator {
                         return comb;
                     }
                 }
+                else if(cards.get(0).color.equals("MahJong")){
+                    
+                }
                 return test("SingleCard",cards.get(0).value,cards,0);
             case 2:
                 if(cards.get(0).value == cards.get(1).value){

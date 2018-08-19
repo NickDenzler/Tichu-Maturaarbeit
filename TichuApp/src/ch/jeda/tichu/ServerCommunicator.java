@@ -153,7 +153,12 @@ public class ServerCommunicator implements MessageReceivedListener,
                                     controller.player1.cards.remove(c);
                                     controller.currentPlayer = controller.player2;
                                 }
-                                send(2,"YourTurn:true");
+                                if(comb.cards.get(0).color.equals("Dog")){
+                                    send(3,"YourTurn:true");
+                                }
+                                else{
+                                    send(2,"YourTurn:true");
+                                }
                                 send(1,"YourTurn:false");
                                 break;
                                 
@@ -162,7 +167,12 @@ public class ServerCommunicator implements MessageReceivedListener,
                                     controller.player2.cards.remove(c);
                                     controller.currentPlayer = controller.player3;
                                 }
-                                send(3,"YourTurn:true");
+                                if(comb.cards.get(0).color.equals("Dog")){
+                                    send(4,"YourTurn:true");
+                                }
+                                else{
+                                    send(3,"YourTurn:true");
+                                }
                                 send(2,"YourTurn:false");
                                 break;
                             case 3:
@@ -170,7 +180,12 @@ public class ServerCommunicator implements MessageReceivedListener,
                                     controller.player3.cards.remove(c);
                                     controller.currentPlayer = controller.player4;
                                 }
-                                send(4,"YourTurn:true");
+                                if(comb.cards.get(0).color.equals("Dog")){
+                                    send(1,"YourTurn:true");
+                                }
+                                else{
+                                    send(4,"YourTurn:true");
+                                }
                                 send(3,"YourTurn:false");
                                 break;
                             case 4:
@@ -178,7 +193,12 @@ public class ServerCommunicator implements MessageReceivedListener,
                                     controller.player4.cards.remove(c);
                                     controller.currentPlayer = controller.player1;
                                 }
-                                send(1,"YourTurn:true");
+                                if(comb.cards.get(0).color.equals("Dog")){
+                                    send(2,"YourTurn:true");
+                                }
+                                else{
+                                    send(1,"YourTurn:true");
+                                }
                                 send(4,"YourTurn:false");
                                 break;
                             }
@@ -229,7 +249,7 @@ public class ServerCommunicator implements MessageReceivedListener,
                 
                 for(Combination comb : controller.combinations){
                     for(Card c : comb.cards){
-                        controller.players[n-1].wonCards.add(c);
+                        controller.players[n-1].wonCards.add(controller.cards[c.id]);
                     }
                 }
                 controller.combinations.clear();

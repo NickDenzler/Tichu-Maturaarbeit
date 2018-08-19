@@ -35,6 +35,7 @@ public class Player {
             cards = new ArrayList<Card>();
             this.controller = controller;
             playerNumber = number;
+            wonCards = new ArrayList<Card>();
         }
         
         public void play() {

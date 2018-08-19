@@ -62,17 +62,20 @@ public class ClientCommunicator implements MessageReceivedListener{
                     controller.isPlaying = true;
                     String title = controller.board.view.getTitle();
                     controller.board.view.setTitle(title + " playing");
-                    if(controller.board.opp1Pass && controller.board.opp2Pass && controller.board.partPass){
+                    if(controller.board.pass[controller.board.opp1] && 
+                            controller.board.pass[controller.board.opp2] && 
+                            controller.board.pass[controller.board.part]){
+                        
                         System.out.println("won");
-                        controller.board.opp1Pass = false;
-                        controller.board.opp2Pass = false;
-                        controller.board.partPass = false;
+                        controller.board.pass[controller.board.opp1] = false;
+                        controller.board.pass[controller.board.opp2] = false;
+                        controller.board.pass[controller.board.part] = false;
                         for(int i = 0; i < 4; i++){
                             controller.playedCards[i].clear();
                             controller.playedCards[i].trimToSize();
                         }
                         send("Won:Round");
-                        
+                        controller.board.draw();
                     }
                 }
                 else if(message.equals("false")){
