@@ -46,6 +46,12 @@ public class Evaluator {
                 else if(cards.get(0).value == cards.get(1).value && cards.get(2).value == cards.get(3).value){
                     return test("Stair",cards.get(0).value,cards,2);
                 }
+            case 5:
+                if(cards.get(0).value == cards.get(1).value && cards.get(1).value == cards.get(2).value && cards.get(3).value == cards.get(4).value)
+                    return test("FullHouse",cards.get(0).value,cards,0);
+                else if(cards.get(0).value == cards.get(1).value && cards.get(2).value == cards.get(3).value && cards.get(3).value == cards.get(4).value){
+                    return test("FullHouse",cards.get(2).value,cards,0);
+                }
             default :
                 if(n > 4){
                     if((n%2)==0){
@@ -66,6 +72,9 @@ public class Evaluator {
     
     boolean ok(String type,int value, int length){
         if(controller.currentComb == null){
+            return true;
+        }
+        else if(controller.currentComb.type.equals("Singlecard") && controller.currentComb.cards.get(0).color.equals("Dog")){
             return true;
         }
         else if("Bomb".equals(type)){
@@ -99,12 +108,17 @@ public class Evaluator {
             if(cards.get(n).value != cards.get(n+1).value){
                 return false;
             } 
+            if(n>0){
+                if(cards.get(n).value != cards.get(n-1).value){
+                    return false;
+                }
+            }
         }
         return true;
     }
     boolean street(ArrayList<Card> cards){
         for(int n = 0; n < cards.size(); n++){
-            if(cards.get(n).value != cards.get(n+1).value){
+            if(cards.get(n).value != cards.get(n+1).value -1){
                 return false;
             }
         }
