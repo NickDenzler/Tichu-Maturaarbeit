@@ -11,6 +11,9 @@ import javax.swing.JTextField;
 public class Board {
  
 	View view;
+        View wish;
+        
+        WishButton[] all;
 	 
 	Canvas background;
         boolean schupfed;
@@ -38,7 +41,7 @@ public class Board {
         
 	Board(ClientController controller){
             this.controller = controller;
-            view = new View(1600,900);
+            view = new View(1600/2,900/2);
             view.setTitle("Spieler " + Integer.toString(controller.playerNumber));
             background = view.getBackground();
             width = background.getWidth();
@@ -50,9 +53,7 @@ public class Board {
         }
         
         public void draw() {
-//            background.drawImage(0, 0, width/15, height/6, Image.JEDA_LOGO_16x16);
             background.setColor(Color.WHITE);
-//            background.fillRectangle(0, 0, cardW*14, cardH);
             background.fillRectangle(0, 0, width, height);
             for(int i=0;i<controller.myCards.size();i++){
                 Card c = controller.myCards.get(i);
@@ -98,7 +99,7 @@ public class Board {
                 for(int i = 0; i < opp2Size; i++){
                     Card c = controller.playedCards[opp2].get(i);
                     Image img = new Image(c.image);
-                    img.rotateDeg(270);
+                    img = img.rotateDeg(270);
                     background.drawImage(cardW, cardH*3.5-opp2Size/2 + i*(cardW/2), cardH/2, cardW/2, img);
                 }
             }
@@ -110,7 +111,7 @@ public class Board {
                 for(int i = 0; i < opp1Size; i++){
                     Card c = controller.playedCards[opp1].get(i);
                     Image img = new Image(c.image);
-                    img.rotateDeg(90);
+                    img = img.rotateDeg(90);
                     background.drawImage(cardW*15, cardH*3.5+opp1Size/2 + i*(cardW/2), cardH/2, cardW/2, img);
                 }
             }
@@ -123,6 +124,55 @@ public class Board {
             }
 	 
 	}
+        
+        public void MahJong(){
+            wish = new View(400,100);
+            wish.setTitle("Wähle eine Kartenhöhe");
+            Canvas canvas = wish.getBackground();
+            WishButton zwei = new WishButton(5,40,30,20,"2",controller);
+            WishButton drei = new WishButton(35,40,30,20,"3",controller);
+            WishButton vier = new WishButton(65,40,30,20,"4",controller);
+            WishButton fünf = new WishButton(95,40,30,20,"5",controller);
+            WishButton sechs = new WishButton(125,40,30,20,"6",controller);
+            WishButton sieben = new WishButton(155,40,30,20,"7",controller);
+            WishButton acht = new WishButton(185,40,30,20,"8",controller);
+            WishButton neun = new WishButton(215,40,30,20,"9",controller);
+            WishButton zehn = new WishButton(245,40,30,20,"10",controller);
+            WishButton j = new WishButton(275,40,30,20,"J",controller);
+            WishButton q = new WishButton(305,40,30,20,"Q",controller);
+            WishButton k = new WishButton(335,40,30,20,"K",controller);
+            WishButton a = new WishButton(365,40,30,20,"A",controller);
+            wish.add(zwei);
+            wish.add(drei);
+            wish.add(vier);
+            wish.add(fünf);
+            wish.add(sechs);
+            wish.add(sieben);
+            wish.add(acht);
+            wish.add(neun);
+            wish.add(zehn);
+            wish.add(j);
+            wish.add(q);
+            wish.add(k);
+            wish.add(a);
+            
+            all = new WishButton[13];
+            all[0] = zwei;
+            all[1] = drei;
+            all[2] = vier;
+            all[3] = fünf;
+            all[4] = sechs;
+            all[5] = sieben;
+            all[6] = acht;
+            all[7] = neun;
+            all[8] = zehn;
+            all[9] = j;
+            all[10] = q;
+            all[11] = k;
+            all[12] = a;
+            
+            
+        }
         
         public void message(String text){
 //            background.setTextSize(32);

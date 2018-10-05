@@ -26,6 +26,7 @@ public class Card implements Comparable<Card>{
         int id;
         
         String deck = " - Kopie";
+//        String deck = "";
         
         Card(int id, int val, String col){
             this.id = id;

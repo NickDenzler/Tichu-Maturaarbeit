@@ -74,7 +74,7 @@ public class Evaluator {
         if(controller.currentComb == null){
             return true;
         }
-        else if(controller.currentComb.type.equals("Singlecard") && controller.currentComb.cards.get(0).color.equals("Dog")){
+        else if(controller.currentComb.type.equals("SingleCard") && controller.currentComb.cards.get(0).color.equals("Dog")){
             return true;
         }
         else if("Bomb".equals(type)){
@@ -117,7 +117,7 @@ public class Evaluator {
         return true;
     }
     boolean street(ArrayList<Card> cards){
-        for(int n = 0; n < cards.size(); n++){
+        for(int n = 0; n < cards.size()-1; n++){
             if(cards.get(n).value != cards.get(n+1).value -1){
                 return false;
             }

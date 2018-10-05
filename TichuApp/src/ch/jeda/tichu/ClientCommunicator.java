@@ -111,6 +111,11 @@ public class ClientCommunicator implements MessageReceivedListener{
                 System.out.println(player);
                 int p = Integer.parseInt(player);
                 if(p == controller.playerNumber){
+                    if(ids.length==1){
+                        if(ids[0].equals("53")){
+                            controller.board.MahJong();
+                        }
+                    }
                     for(String s : ids){
                         int x = Integer.parseInt(s);
                         boolean remove = controller.myCards.remove(controller.cards[x]);

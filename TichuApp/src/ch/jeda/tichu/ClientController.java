@@ -40,6 +40,8 @@ public class ClientController extends Program{
 	PlayButton playButton;
 	 
 	PassButton passButton;
+        
+        int wishedHeight;
 	 
         @Override
 	public void run() {
