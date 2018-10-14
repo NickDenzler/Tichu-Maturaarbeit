@@ -21,7 +21,23 @@ public class Evaluator {
         int n = cards.size();
         switch(n){
             case 1:
-                if(cards.get(0).color.equals("Phoenix")){
+                if(controller.currentComb != null){
+                    if(controller.currentComb.cards.size() == 1 &&
+                    controller.currentComb.cards.get(0).color.equals("MahJong")){
+                        if(cards.get(0).value == controller.MahJong){
+                            return test("SingleCard",cards.get(0).value,cards,0);
+                        }
+                        else{
+                            controller.communicator.send(controller.currentPlayer.playerNumber, "Error:Du musst die gewünschte Karte spielen");
+                            return null;
+                        }
+                    }
+                }
+                
+                else if(cards.get(0).color.equals("Phoenix")){
+                    if(controller.currentComb == null){
+                        return test("SingleCard",0,cards,0);
+                    }
                     if(test("SingleCard",controller.currentComb.value+1,cards,0)!= null){
                         Combination comb = new Combination("SingleCard",controller.currentComb.value,cards,controller.currentPlayer,0);
                         return comb;

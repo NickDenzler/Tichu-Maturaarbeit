@@ -43,6 +43,37 @@ public class ServerCommunicator implements MessageReceivedListener,
         }
 
         public void send(int n, String text) {
+            if(text.equals("YourTurn:true")){
+                if(controller.players[n-1].finished){
+                    if(n == 4){
+                        n = 1;
+                    }
+                    else{
+                        n++;
+                    }
+                    switch (n){
+                        case 1:
+                            controller.currentPlayer = controller.player1;
+                            break;
+                        case 2:
+                            controller.currentPlayer = controller.player2;
+                            break;
+                        case 3:
+                            controller.currentPlayer = controller.player3;
+                            break;
+                        case 4:
+                            controller.currentPlayer = controller.player4;
+                            break;
+                        
+                    }
+                            
+                                
+//                    controller.currentPlayer = controller.players[n-1];
+                    send(n,text);
+                    return;
+                }
+//                System.out.println("Spieler "+controller.currentPlayer.playerNumber+" ist an der Reihe");
+            }
             connections.get(n-1).sendLine(text);
         }
 
@@ -131,11 +162,15 @@ public class ServerCommunicator implements MessageReceivedListener,
                         played.add(controller.cards[x]);
                     }
                     Collections.sort(played);
+                    if(played.get(0).color.equals("Phoenix")){
+                        played.get(0).value = controller.Phoenix;
+                    }
                     Combination comb = controller.evaluator.evaluate(played);
                     if(comb == null){
                         send(n, "Error:Falsche oder zu tiefe Kombination");
                     }
                     else {
+                        comb.player = controller.players[n-1];
                         controller.currentComb = comb;
                         controller.combinations.add(comb);
                         
@@ -153,12 +188,12 @@ public class ServerCommunicator implements MessageReceivedListener,
                                     controller.player1.cards.remove(c);
                                 }
                                 if(comb.cards.get(0).color.equals("Dog")){
-                                    send(3,"YourTurn:true");
                                     controller.currentPlayer = controller.player3;
+                                    send(3,"YourTurn:true");
                                 }
                                 else{
-                                    send(2,"YourTurn:true");
                                     controller.currentPlayer = controller.player2;
+                                    send(2,"YourTurn:true");
                                 }
                                 send(1,"YourTurn:false");
                                 break;
@@ -168,12 +203,12 @@ public class ServerCommunicator implements MessageReceivedListener,
                                     controller.player2.cards.remove(c);
                                 }
                                 if(comb.cards.get(0).color.equals("Dog")){
-                                    send(4,"YourTurn:true");
                                     controller.currentPlayer = controller.player4;
+                                    send(4,"YourTurn:true");
                                 }
                                 else{
+                                    controller.currentPlayer = controller.player3;send(3,"YourTurn:true");
                                     send(3,"YourTurn:true");
-                                    controller.currentPlayer = controller.player3;
                                 }
                                 send(2,"YourTurn:false");
                                 break;
@@ -182,12 +217,12 @@ public class ServerCommunicator implements MessageReceivedListener,
                                     controller.player3.cards.remove(c);
                                 }
                                 if(comb.cards.get(0).color.equals("Dog")){
-                                    send(1,"YourTurn:true");
                                     controller.currentPlayer = controller.player1;
+                                    send(1,"YourTurn:true");
                                 }
                                 else{
-                                    send(4,"YourTurn:true");
                                     controller.currentPlayer = controller.player4;
+                                    send(4,"YourTurn:true");
                                 }
                                 send(3,"YourTurn:false");
                                 break;
@@ -196,12 +231,12 @@ public class ServerCommunicator implements MessageReceivedListener,
                                     controller.player4.cards.remove(c);
                                 }
                                 if(comb.cards.get(0).color.equals("Dog")){
-                                    send(2,"YourTurn:true");
                                     controller.currentPlayer = controller.player2;
+                                    send(2,"YourTurn:true");
                                 }
                                 else{
-                                    send(1,"YourTurn:true");
                                     controller.currentPlayer = controller.player1;
+                                    send(1,"YourTurn:true");
                                 }
                                 send(4,"YourTurn:false");
                                 break;
@@ -216,17 +251,28 @@ public class ServerCommunicator implements MessageReceivedListener,
             }
             else if(mType.equals("Pass")){
                 int n = Integer.parseInt(sender);
+                boolean pass = true;
                 if(n == controller.currentPlayer.playerNumber){
-                    for(int i = 1; i < 5; i++){
-                        send(i,"Passed:"+n);
+                    
+                    if(controller.currentComb.cards.size() == 1 &&
+                    controller.currentComb.cards.get(0).color.equals("MahJong")){
+                        for(Card c : controller.players[n-1].cards){
+                            if(c.value == controller.MahJong){
+                                pass = false;
+                                send(n,"Error:Du musst die gewünschte Karte spielen");
+                            }
+                        }
                     }
-                    switch(n){
+                    if(pass){
+                        for(int i = 1; i < 5; i++){
+                        send(i,"Passed:"+n);
+                        }
+                        switch(n){
                             case 1:
                                 controller.currentPlayer = controller.player2;
                                 send(2,"YourTurn:true");
                                 send(1,"YourTurn:false");
                                 break;
-                                
                             case 2:
                                 controller.currentPlayer = controller.player3;
                                 send(3,"YourTurn:true");
@@ -242,24 +288,151 @@ public class ServerCommunicator implements MessageReceivedListener,
                                 send(1,"YourTurn:true");
                                 send(4,"YourTurn:false");
                                 break;
-                            }
+                        }
+                    }
+                    
                 }
                 else{
                     send(n,"Error:Du bist nicht an der Reihe");
                 }
             }
-            else if(mType.equals("Won")){
-                int n = Integer.parseInt(sender);
-                
-                for(Combination comb : controller.combinations){
-                    for(Card c : comb.cards){
-                        controller.players[n-1].wonCards.add(controller.cards[c.id]);
+            else if(mType.equals("Finnished")){
+                    int n = Integer.parseInt(sender);
+                    if(!controller.finnished.isEmpty()){
+                        if(controller.finnished.size() == 1){
+                            if(n<3){
+                                if(controller.players[n+1].playerNumber == controller.finnished.get(0).playerNumber){
+                                    controller.doubleWin = true;
+                                }
+                            }
+                            else{
+                                if(controller.players[n-3].playerNumber == controller.finnished.get(0).playerNumber){
+                                    controller.doubleWin = true;
+                                }
+                            }
+                        }
+                        else if(controller.finnished.size()==2){
+                            controller.roundOver = true;
+                        }
+                    }
+                     switch (n){
+                        case 1:
+                            controller.player1.finished = true;
+                            controller.finnished.add(controller.player1);
+                            break;
+                        case 2:
+                           controller.player2.finished = true;
+                            controller.finnished.add(controller.player2);
+                            break;
+                        case 3:
+                            controller.player3.finished = true;
+                            controller.finnished.add(controller.player3);
+                            break;
+                        case 4:
+                            controller.player4.finished = true;
+                            controller.finnished.add(controller.player4);
+                            break;
+                        
+                    }
+                    
+//                    controller.finnished.add(controller.players[n-1]);
+//                    controller.players[n-1].finished = true;
+                    for(int i = 1; i<5; i++){
+                        send(i,"Finnished:"+n);
+                    }
+                    if(controller.roundOver){
+                        int x = 0;
+                        for(Player p : controller.players){
+                            if(!p.finished){
+                                for(Card c : p.wonCards){
+                                    controller.finnished.get(0).wonCards.add(c);
+                                }
+                                if(p.playerNumber > 2){
+                                    for(Card c : p.cards){
+                                        controller.players[p.playerNumber-3].wonCards.add(c);
+                                    }
+                                }
+                                if(p.playerNumber < 3){
+                                    for(Card c : p.cards){
+                                        controller.players[p.playerNumber+1].wonCards.add(c);
+                                    }
+                                }
+                            }
+                            if(p.playerNumber == 1 || p.playerNumber == 3){
+                                x = x + controller.counter.count(p.wonCards);
+                            }
+                        }
+                        controller.counter.pointsTeamA += x;
+                        int y = controller.counter.calculate(x);
+                        controller.counter.pointsTeamB += y;
+                        for(int i = 1; i < 5; i++){
+                            send(i,"RoundOver:"+x+","+y+","+controller.counter.pointsTeamA+","+controller.counter.pointsTeamB);
+                        }
+//                        controller.mix();
+                    }
+                    else if(controller.doubleWin){
+                        int x = 0;
+                        int y = 0;
+                        if(n == 1 || n == 3){
+                            x = 200;
+                        }
+                        else if(n == 2 || n == 4){
+                            y = 200;
+                        }
+                        controller.counter.pointsTeamB += y;
+                        controller.counter.pointsTeamA += x;
+                        for(int i = 1; i < 5; i++){
+                            send(i,"RoundOver:"+x+","+y+","+controller.counter.pointsTeamA+","+controller.counter.pointsTeamB);
+                        }
+//                        controller.mix();
                     }
                 }
-                controller.combinations.clear();
-                controller.currentComb = null;
+            else if(mType.equals("Won")){
+                int n = Integer.parseInt(sender);
+                int x = 0;
+                int p;
+                if(n==4){
+                    x = 1;
+                }
+                else{
+                    x = n+1;
+                }
+                if(controller.currentComb.player.playerNumber == x || controller.players[x-1].finished) {
+                    System.out.println("test");
+                } 
+                else {
+                    if(controller.currentComb.type.equals("SingleCard") && controller.currentComb.cards.get(0).color.equals("Dragon")){
+                        p = controller.Dragon;
+                        System.out.println("Drache wurde Spieler "+p+" gegeben.");
+                    }
+                    else{
+                        p = n;
+                    }
+                    for(Combination comb : controller.combinations){
+                        for(Card c : comb.cards){
+                            controller.players[p-1].wonCards.add(controller.cards[c.id]);
+                        }
+                    }
+                    controller.combinations.clear();
+                    controller.currentComb = null;
+                    for(int i = 1; i<5; i++){
+                        send(i,"Won:"+n);
+                    }
+                }
+                
             }
-            
+            else if(mType.equals("Phoenix")){
+                controller.Phoenix = Integer.parseInt(message);
+            }
+            else if(mType.equals("MahJong")){
+                controller.MahJong = Integer.parseInt(message);
+                for(int i = 1; i < 5;i ++){
+                    send(i,"Error:"+controller.MahJong+" wurde gewünscht");
+                }
+            }
+            else if(mType.equals("Dragon")){
+                controller.Dragon = Integer.parseInt(message);
+            }
             else {
                 System.out.println("Unerwartete Meldung:" + event.getLine());
             }

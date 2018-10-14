@@ -15,6 +15,8 @@ public class ServerController {
 	Player currentPlayer;
 	 
 	ArrayList<Combination> combinations;
+        
+        ArrayList<Player> finnished = new ArrayList<Player>();
 	 
 	Evaluator evaluator;
 	 
@@ -37,8 +39,17 @@ public class ServerController {
         boolean p4Schupfed;
         
         Card[] cards;
+        
+        int MahJong;
+        int Phoenix;
+        int Dragon;
+        
+        boolean roundOver;
+        boolean doubleWin;
 	 
-	private ServerCommunicator communicator;
+	ServerCommunicator communicator;
+        
+        View view;
         
         protected ServerController(ServerMain main)
         {
@@ -46,7 +57,20 @@ public class ServerController {
             communicator = new ServerCommunicator(this);
             evaluator = new Evaluator(this);
             combinations = new ArrayList<Combination>();
+            counter = new Counter(this);
             
+            
+            
+            view = new View(10,10);
+            
+//            while(1==1){
+//                
+//            }
+            
+            
+        }
+	 
+	public void mix() {
             player1 = new Player(this,1);
             player2 = new Player(this,2);
             player3 = new Player(this,3);
@@ -57,15 +81,6 @@ public class ServerController {
             players[2] = player3;
             players[3] = player4;
             
-            
-            while(1==1){
-                
-            }
-            
-            
-        }
-	 
-	public void mix() {
             cards = new Card[56];
             String[] col = {"blue","black","red","green"};
             int id = 0;

@@ -5,12 +5,18 @@ import ch.jeda.*;
 import ch.jeda.ui.*;
 import ch.jeda.event.*;
 import static ch.jeda.ui.ViewFeature.*;
+import java.awt.TextField;
 import java.util.*;
 
 
 public class ClientController extends Program{
  
 	boolean isPlaying;
+        
+        boolean finnished;
+        boolean partFinnished;
+        boolean opp1Finnished;
+        boolean opp2Finnished;
         
         int playerNumber;
 	
@@ -42,6 +48,7 @@ public class ClientController extends Program{
 	PassButton passButton;
         
         int wishedHeight;
+        int wishedHeight2;
 	 
         @Override
 	public void run() {
@@ -71,6 +78,7 @@ public class ClientController extends Program{
             playedCards[1] = playedCards2;
             playedCards[2] = playedCards3;
             playedCards[3] = playedCards4;
+            
             
 	}
 	 

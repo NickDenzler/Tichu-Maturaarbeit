@@ -62,21 +62,16 @@ public class ClientCommunicator implements MessageReceivedListener{
                     controller.isPlaying = true;
                     String title = controller.board.view.getTitle();
                     controller.board.view.setTitle(title + " playing");
-                    if(controller.board.pass[controller.board.opp1] && 
-                            controller.board.pass[controller.board.opp2] && 
-                            controller.board.pass[controller.board.part]){
-                        
-                        System.out.println("won");
-                        controller.board.pass[controller.board.opp1] = false;
-                        controller.board.pass[controller.board.opp2] = false;
-                        controller.board.pass[controller.board.part] = false;
-                        for(int i = 0; i < 4; i++){
-                            controller.playedCards[i].clear();
-                            controller.playedCards[i].trimToSize();
+                    if(controller.board.pass[controller.board.opp1] || controller.board.finnished[controller.board.opp1]){
+                        if(controller.board.pass[controller.board.opp2] || controller.board.finnished[controller.board.opp2]){
+                            if(controller.board.pass[controller.board.part] || controller.board.finnished[controller.board.part]){
+                                System.out.println("won");
+                                send("Won:Round");
+                                controller.board.draw();
+                            }
                         }
-                        send("Won:Round");
-                        controller.board.draw();
                     }
+                    
                 }
                 else if(message.equals("false")){
                     System.out.println("not playing");
@@ -86,6 +81,22 @@ public class ClientCommunicator implements MessageReceivedListener{
                 }
                 
             }
+            else if(mType.equals("Finnished")){
+                int p = Integer.parseInt(message);
+                controller.board.finnished[p-1] = true;
+            }
+            else if(mType.equals("Won")){
+                controller.board.pass[controller.board.opp1] = false;
+                controller.board.pass[controller.board.opp2] = false;
+                controller.board.pass[controller.board.part] = false;
+                controller.board.pass[controller.board.me] = false;
+                for(int i = 0; i < 4; i++){
+                    controller.playedCards[i].clear();
+                    controller.playedCards[i].trimToSize();
+                }
+                controller.board.draw();
+            }
+            
             else if(mType.equals("SchupfedCards")){
                 String[] ids = message.split(",");
                 for(String s : ids){
@@ -131,18 +142,30 @@ public class ClientCommunicator implements MessageReceivedListener{
                     
                     controller.myCards.trimToSize();
                     Collections.sort(controller.myCards);
-                    
+                    if(controller.myCards.isEmpty()){
+                        controller.board.finnished[controller.board.me] = true;
+                        send("Finnished:now");
+                    }
                     controller.board.draw();
                 }
                 controller.playedCards[p-1].clear();
                 for(String s : ids){
                     int x = Integer.parseInt(s);
                     controller.playedCards[p-1].add(controller.cards[x]);
+                    controller.board.cardsLeft[p-1] --;
                 }
                 controller.playedCards1.trimToSize();
                 Collections.sort(controller.playedCards1);
-                controller.board.pass[p-1] = false;
+                for(int i = 0; i < 4; i++){
+                    controller.board.pass[i] = false;
+                }
+                
                 controller.board.draw();
+            }
+            else if(mType.equals("RoundOver")){
+                String[] strings = message.split(",");
+                controller.board.End(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]), Integer.parseInt(strings[2]), Integer.parseInt(strings[3]));
+//                controller.run();
             }
             else if(mType.equals("Message")){
                 System.out.println(message);
