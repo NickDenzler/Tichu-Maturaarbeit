@@ -125,7 +125,7 @@ public class Evaluator {
                 return false;
             } 
             if(n>0){
-                if(cards.get(n).value != cards.get(n-1).value){
+                if(cards.get(n).value == cards.get(n-1).value){
                     return false;
                 }
             }

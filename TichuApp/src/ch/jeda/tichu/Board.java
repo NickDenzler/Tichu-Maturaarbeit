@@ -153,7 +153,7 @@ public class Board {
 	}
         
         public void End(int a,int b,int A,int B){
-            end = new View(700,700);
+            end = new View(700,500);
             end.setTitle("Rundenende");
             Canvas canvas = end.getBackground();
             canvas.drawText(300, 600, "Spieler 1 & 3");
@@ -161,9 +161,9 @@ public class Board {
             canvas.drawText(100, 400, "Diese Runde:");
             canvas.drawText(300, 400, a+" Punkte");
             canvas.drawText(500, 400, b+" Punkte");
-            canvas.drawText(100,200, "Insgesamt:");
-            canvas.drawText(300,200, A+" Punkte");
-            canvas.drawText(500, 200, B+" Punkte");
+//            canvas.drawText(100,200, "Insgesamt:");
+//            canvas.drawText(300,200, A+" Punkte");
+//            canvas.drawText(500, 200, B+" Punkte");
             
         }
         public void Dragon(){
@@ -185,7 +185,7 @@ public class Board {
             WishButton zwei = new WishButton(5,40,30,20,"2",controller,"MahJong");
             WishButton drei = new WishButton(35,40,30,20,"3",controller,"MahJong");
             WishButton vier = new WishButton(65,40,30,20,"4",controller,"MahJong");
-            WishButton fünf = new WishButton(95,40,30,20,"5",controller,"MahJong");
+            WishButton funf = new WishButton(95,40,30,20,"5",controller,"MahJong");
             WishButton sechs = new WishButton(125,40,30,20,"6",controller,"MahJong");
             WishButton sieben = new WishButton(155,40,30,20,"7",controller,"MahJong");
             WishButton acht = new WishButton(185,40,30,20,"8",controller,"MahJong");
@@ -198,7 +198,7 @@ public class Board {
             wish.add(zwei);
             wish.add(drei);
             wish.add(vier);
-            wish.add(fünf);
+            wish.add(funf);
             wish.add(sechs);
             wish.add(sieben);
             wish.add(acht);
@@ -213,7 +213,7 @@ public class Board {
             all[0] = zwei;
             all[1] = drei;
             all[2] = vier;
-            all[3] = fünf;
+            all[3] = funf;
             all[4] = sechs;
             all[5] = sieben;
             all[6] = acht;
@@ -234,7 +234,7 @@ public class Board {
             WishButton zwei = new WishButton(5,40,30,20,"2",controller,"Phoenix");
             WishButton drei = new WishButton(35,40,30,20,"3",controller,"Phoenix");
             WishButton vier = new WishButton(65,40,30,20,"4",controller,"Phoenix");
-            WishButton fünf = new WishButton(95,40,30,20,"5",controller,"Phoenix");
+            WishButton funf = new WishButton(95,40,30,20,"5",controller,"Phoenix");
             WishButton sechs = new WishButton(125,40,30,20,"6",controller,"Phoenix");
             WishButton sieben = new WishButton(155,40,30,20,"7",controller,"Phoenix");
             WishButton acht = new WishButton(185,40,30,20,"8",controller,"Phoenix");
@@ -247,7 +247,7 @@ public class Board {
             wish.add(zwei);
             wish.add(drei);
             wish.add(vier);
-            wish.add(fünf);
+            wish.add(funf);
             wish.add(sechs);
             wish.add(sieben);
             wish.add(acht);
@@ -262,7 +262,7 @@ public class Board {
             all2[0] = zwei;
             all2[1] = drei;
             all2[2] = vier;
-            all2[3] = fünf;
+            all2[3] = funf;
             all2[4] = sechs;
             all2[5] = sieben;
             all2[6] = acht;
@@ -275,12 +275,12 @@ public class Board {
             
             
         }
-        public String servername(){
-            text = new View();
-            
-            
-            return "Localhost";
-        }
+//        public String servername(){
+//            text = new View();
+//            
+//            
+//            return "Localhost";
+//        }
         public void message(String text){
 //            background.setTextSize(32);
 //            background.fillRectangle(0, cardH, width, height-cardH);
