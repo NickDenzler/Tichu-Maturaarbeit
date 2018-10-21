@@ -1,61 +1,49 @@
 package ch.jeda.tichu;
 
+public class Card implements Comparable<Card> {
 
-import ch.jeda.*;
-import ch.jeda.ui.*;
-import ch.jeda.event.*;
-import static ch.jeda.ui.ViewFeature.*;
+    String deck = " - Kopie";       //Auswahl der Karten Bilder: 
+                                    //" - Kopie" für Originalkarten,
+                                    //"" für selbst gemalte
+    int value;
 
+    String color;
 
-public class Card implements Comparable<Card>{
- 
-	int value;
-	 
-	String color;
-	 
-	String image;
-        String imageS;
-	boolean isSelected;
-        
-	private boolean isPlayed;
-	 
-	private Player player;
-	 
-	private ClientController clientController;
-	
-        int id;
-        
-        String deck = " - Kopie";
-//        String deck = "";
-        
-        Card(int id, int val, String col){
-            this.id = id;
-            color = col;
-            value = val;
-            image ="res:cards/"+color+val+deck+".png";
-            imageS ="res:cardsSel/"+color+val+deck+".png";
-        }
-        
-        public String getString(){
-            String s = color+value;
-            return s;
-        }
-        
-        
+    String image;
+    String imageS;
+    boolean isSelected;
+
+    private boolean isPlayed;
+
+    private Player player;
+
+    private ClientController clientController;
+
+    int id;
+
+    Card(int id, int val, String col) {
+        this.id = id;
+        color = col;
+        value = val;
+        image = "res:cards/" + color + val + deck + ".png";      //Pfade für nicht gewählte
+        imageS = "res:cardsSel/" + color + val + deck + ".png";  //und gewählte Karten
+    }
+
+    public String getString() {
+        String s = color + value;
+        return s;
+    }
 
     @Override
     public int compareTo(Card t) {
-        if (value<t.value){
+        if (value < t.value) {
             return -1;
-        }
-        else if (value>t.value){
+        } else if (value > t.value) {
             return 1;
-            
-        }
-        else{
+
+        } else {
             return 0;
         }
     }
-        
+
 }
- 
